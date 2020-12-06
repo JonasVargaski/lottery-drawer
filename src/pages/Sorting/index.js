@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-console */
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import { Button, Paper, InputAdornment } from "@material-ui/core";
 
 import CardGame from "../../components/CardGame";
@@ -18,7 +18,7 @@ const defaultConfigs = {
 
 function Sorting() {
   const [games, setGames] = useState([]);
-  const [config, setConfigs] = useState(defaultConfigs);
+  const [config, setConfigs] = useState({});
 
   const genericNumbers = useMemo(() => {
     if (config.max)
@@ -41,13 +41,23 @@ function Sorting() {
   );
 
   const handleClear = useCallback(() => {
-    setConfigs(defaultConfigs);
     setGames([]);
-  }, [defaultConfigs, setConfigs]);
+    setConfigs((x) => ({ ...x, ignored: [] }));
+  }, [setConfigs]);
 
   const handleGenerate = useCallback(() => {
+    localStorage.setItem("sorter:configs", JSON.stringify(config));
     setGames(generate(config));
   }, [config, setGames]);
+
+  useEffect(() => {
+    const cfg = localStorage.getItem("sorter:configs");
+    if (cfg) {
+      setConfigs({ ...JSON.parse(cfg), ignored: [] });
+    } else {
+      setConfigs(defaultConfigs);
+    }
+  }, []);
 
   return (
     <Container>

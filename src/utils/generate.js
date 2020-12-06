@@ -4,8 +4,8 @@ function getRandomInt(min, max) {
   return Math.ceil(Math.random() * (max - min) + min);
 }
 
-export default function generate(params) {
-  const config = { ...params, loops: 2000 };
+export default function generate({ cards, dozens, ignored = [], min, max }) {
+  const config = { cards, dozens, ignored, min, max, loops: 2000 };
 
   let i = 0;
   const result = [];
