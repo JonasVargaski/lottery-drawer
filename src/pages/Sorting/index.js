@@ -99,7 +99,7 @@ function Sorting() {
               <SCTextField
                 fullWidth
                 variant="outlined"
-                label="Dezenas"
+                label="Numeros por Jogo"
                 type="number"
                 value={config.dozens}
                 onChange={({ target }) =>
