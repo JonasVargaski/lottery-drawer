@@ -25,7 +25,7 @@ export const Form = styled.div`
   grid-gap: 10px;
 
   @media (max-width: 634px) {
-    grid-template-rows: 40px auto auto 48px;
+    grid-template-rows: 40px auto auto 50px;
     grid-template-areas: "header header" "form form" "numbers numbers" "actions actions";
   }
 

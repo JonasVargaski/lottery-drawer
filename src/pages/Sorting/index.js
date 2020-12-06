@@ -9,7 +9,7 @@ import { Container, Form, Results, SCTextField } from "./styles";
 import generate from "../../utils/generate";
 
 const defaultConfigs = {
-  cards: 2,
+  cards: 3,
   dozens: 6,
   ignored: [],
   min: 1,

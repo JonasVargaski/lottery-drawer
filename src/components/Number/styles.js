@@ -14,5 +14,11 @@ export const SCAvatar = styled(Avatar)`
     background: ${({ disabled }) => !disabled && "#673AB7"};
     font-size: 17px;
     font-weight: 500;
+
+    @media (max-width: 634px) {
+      width: 35px;
+      height: 35px;
+      font-size: 18px;
+    }
   }
 `;
