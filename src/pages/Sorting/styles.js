@@ -3,7 +3,7 @@ import { TextField } from "@material-ui/core";
 
 export const Container = styled.div`
   height: 100%;
-  width: 100vw;
+  width: 100%;
 
   > main {
     margin: 0 auto;
@@ -78,11 +78,12 @@ export const SCTextField = styled(TextField)`
 
 export const Results = styled.div`
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
 
   > div {
     @media (min-width: 634px) {
-      max-width: 30%;
+      max-width: 47%;
     }
   }
 `;

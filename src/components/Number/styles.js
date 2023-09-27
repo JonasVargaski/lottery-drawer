@@ -1,24 +1,19 @@
 import styled from "styled-components";
-import { IconButton, Avatar } from "@material-ui/core";
 
-export const Container = styled(IconButton)`
-  &.MuiButtonBase-root {
-    padding: 8px;
-  }
-`;
+export const Container = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: #f1f1f1;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  vertical-align: middle;
+  text-align: center;
+  color: #444;
+  border: 1px solid #e9e9e9;
+  box-shadow: 1px 1px 19px -12px rgba(0, 0, 0, 0.75);
 
-export const SCAvatar = styled(Avatar)`
-  &.MuiAvatar-root {
-    width: 27px;
-    height: 27px;
-    background: ${({ disabled }) => !disabled && "#673AB7"};
-    font-size: 17px;
-    font-weight: 500;
-
-    @media (max-width: 634px) {
-      width: 35px;
-      height: 35px;
-      font-size: 18px;
-    }
-  }
+  ${({ selected }) => selected && `background-color: #8fc93a; color:#fff `};
 `;

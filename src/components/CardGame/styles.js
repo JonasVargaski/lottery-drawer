@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Card } from "@material-ui/core";
 
 export const Container = styled(Card).attrs({ variant: "outlined" })`
-  max-width: 285px;
-  width: fit-content;
+  max-width: 395px;
+  width: 100%;
   margin: 10px;
   padding: 4px 10px 10px 10px;
 
@@ -12,9 +12,7 @@ export const Container = styled(Card).attrs({ variant: "outlined" })`
   }
 
   > p {
-    border-bottom: 2px solid #e9e9e9;
-    padding-bottom: 7px;
-    margin-bottom: 7px;
+    margin-top: 6px;
     text-align: center;
   }
 
@@ -22,4 +20,13 @@ export const Container = styled(Card).attrs({ variant: "outlined" })`
     display: flex;
     flex-wrap: wrap;
   }
+`;
+
+export const CardsContainer = styled.div`
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  gap: 12px;
 `;

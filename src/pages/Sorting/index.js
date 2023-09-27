@@ -1,24 +1,19 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-console */
 import React, { useMemo, useState, useCallback, useEffect } from "react";
-import { Button, Paper, InputAdornment } from "@material-ui/core";
-
+import { Button, Paper, InputAdornment, Grid } from "@material-ui/core";
 import CardGame from "../../components/CardGame";
 import { Container, Form, Results, SCTextField } from "./styles";
-
-import generate from "../../utils/generate";
-
-const defaultConfigs = {
-  cards: 3,
-  dozens: 6,
-  ignored: [],
-  min: 1,
-  max: 60,
-};
+import { generateRandomNumbersWithoutRepeating } from "../../utils/random";
 
 function Sorting() {
   const [games, setGames] = useState([]);
-  const [config, setConfigs] = useState({});
+  const [config, setConfigs] = useState(() => ({
+    min: 1,
+    max: 60,
+    dozens: 6,
+    cards: 6,
+  }));
 
   const genericNumbers = useMemo(() => {
     if (config.max)
@@ -28,133 +23,124 @@ function Sorting() {
     return [];
   }, [config]);
 
-  const handleChangeSelectted = useCallback(
-    (number) => {
-      if (config.ignored.includes(number))
-        setConfigs({
-          ...config,
-          ignored: config.ignored.filter((x) => x !== number),
-        });
-      else setConfigs({ ...config, ignored: [...config.ignored, number] });
-    },
-    [config, setConfigs]
-  );
-
-  const handleClear = useCallback(() => {
-    setGames([]);
-    setConfigs((x) => ({ ...x, ignored: [] }));
-  }, [setConfigs]);
-
   const handleGenerate = useCallback(() => {
-    localStorage.setItem("sorter:configs", JSON.stringify(config));
-    setGames(generate(config));
+    setGames(
+      generateRandomNumbersWithoutRepeating({
+        ...config,
+        length: config.dozens,
+        count: config.cards,
+      })
+    );
   }, [config, setGames]);
 
   useEffect(() => {
-    const cfg = localStorage.getItem("sorter:configs");
-    if (cfg) {
-      setConfigs({ ...JSON.parse(cfg), ignored: [] });
-    } else {
-      setConfigs(defaultConfigs);
-    }
+    handleGenerate();
   }, []);
 
   return (
     <Container>
       <main>
-        <Paper elevation={3}>
+        <Paper elevation={3} style={{ padding: 12 }}>
           <Form>
-            <header>Gerador de Jogos</header>
+            <header>Gerador de números aleatórios</header>
 
-            <CardGame
-              title="Numeros descartados"
-              numbers={genericNumbers}
-              selecteds={config.ignored}
-              handleChange={handleChangeSelectted}
-            />
+            <Grid container spacing={2} style={{ marginTop: 8 }}>
+              <Grid item xs={12} sm={3}>
+                <SCTextField
+                  fullWidth
+                  variant="outlined"
+                  label="Numero inicial"
+                  type="number"
+                  value={config.min}
+                  onChange={({ target }) =>
+                    setConfigs((old) => ({ ...old, min: Number(target.value) }))
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">1 ~ 99</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
 
-            <section>
-              <SCTextField
-                fullWidth
-                variant="outlined"
-                label="Numero inicial"
-                type="number"
-                value={config.min}
-                onChange={({ target }) =>
-                  setConfigs((old) => ({ ...old, min: Number(target.value) }))
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">1 ~ 99</InputAdornment>
-                  ),
-                }}
-              />
+              <Grid item xs={12} sm={3}>
+                <SCTextField
+                  fullWidth
+                  variant="outlined"
+                  label="Numero final"
+                  type="number"
+                  value={config.max}
+                  onChange={({ target }) =>
+                    setConfigs((old) => ({ ...old, max: Number(target.value) }))
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">1 ~ 99</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
 
-              <SCTextField
-                fullWidth
-                variant="outlined"
-                label="Numero final"
-                type="number"
-                value={config.max}
-                onChange={({ target }) =>
-                  setConfigs((old) => ({ ...old, max: Number(target.value) }))
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">1 ~ 99</InputAdornment>
-                  ),
-                }}
-              />
+              <Grid item xs={12} sm={3}>
+                <SCTextField
+                  fullWidth
+                  variant="outlined"
+                  label="Quantidade de números"
+                  type="number"
+                  value={config.dozens}
+                  onChange={({ target }) =>
+                    setConfigs((old) => ({
+                      ...old,
+                      dozens: Number(target.value),
+                    }))
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">1 ~ 99</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
 
-              <SCTextField
-                fullWidth
-                variant="outlined"
-                label="Numeros por Jogo"
-                type="number"
-                value={config.dozens}
-                onChange={({ target }) =>
-                  setConfigs((old) => ({
-                    ...old,
-                    dozens: Number(target.value),
-                  }))
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">1 ~ 99</InputAdornment>
-                  ),
-                }}
-              />
+              <Grid item xs={12} sm={3}>
+                <SCTextField
+                  fullWidth
+                  variant="outlined"
+                  label="Quantidade de combinações"
+                  type="number"
+                  value={config.cards}
+                  onChange={({ target }) =>
+                    setConfigs((old) => ({
+                      ...old,
+                      cards: Number(target.value),
+                    }))
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">1 ~ 99</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
 
-              <SCTextField
-                fullWidth
-                variant="outlined"
-                label="Quantidade de Jogos"
-                type="number"
-                value={config.cards}
-                onChange={({ target }) =>
-                  setConfigs((old) => ({ ...old, cards: Number(target.value) }))
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">1 ~ 99</InputAdornment>
-                  ),
-                }}
-              />
-            </section>
-
-            <footer>
-              <Button variant="contained" color="default" onClick={handleClear}>
-                Limpar
-              </Button>
-
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleGenerate}
+              <Grid
+                item
+                xs={12}
+                style={{ display: "flex", justifyContent: "flex-end", gap: 16 }}
               >
-                Gerar Jogos
-              </Button>
-            </footer>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#8fc93a",
+                    color: "#fff",
+                    fontWeight: 600,
+                  }}
+                  onClick={handleGenerate}
+                >
+                  Gerar Novamente
+                </Button>
+              </Grid>
+            </Grid>
           </Form>
         </Paper>
 
@@ -164,7 +150,7 @@ function Sorting() {
               {games.map((game, index) => (
                 <CardGame
                   key={index}
-                  title={`Jogo Nº ${index + 1}`}
+                  title={`Combinação ${games.length - index}`}
                   numbers={genericNumbers}
                   selecteds={game}
                 />

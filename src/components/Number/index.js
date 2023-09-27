@@ -1,13 +1,8 @@
-import React, { memo } from "react";
+import React from "react";
+import { Container } from "./styles";
 
-import { Container, SCAvatar } from "./styles";
-
-function Number({ value, onClick = () => {}, disabled }) {
-  return (
-    <Container onClick={() => onClick(value)}>
-      <SCAvatar disabled={disabled}>{value}</SCAvatar>
-    </Container>
-  );
+function Number({ value, selected }) {
+  return <Container selected={selected}>{value}</Container>;
 }
 
-export default memo(Number);
+export default Number;

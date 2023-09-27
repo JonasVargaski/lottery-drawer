@@ -1,30 +1,24 @@
-import React, { memo } from "react";
+import React from "react";
 import { Typography } from "@material-ui/core";
 
 import Number from "../Number";
-import { Container } from "./styles";
+import { CardsContainer, Container } from "./styles";
 
-function CardGame({
-  title,
-  numbers = [],
-  selecteds = [],
-  handleChange = () => {},
-}) {
+function CardGame({ title, numbers = [], selecteds = [] }) {
   return (
     <Container>
-      <Typography>{title}</Typography>
-      <div>
+      <Typography variant="body1">{title}</Typography>
+      <CardsContainer>
         {numbers.map((number) => (
           <Number
             key={number}
-            disabled={!selecteds.includes(number)}
+            selected={selecteds.includes(number)}
             value={number}
-            onClick={handleChange}
           />
         ))}
-      </div>
+      </CardsContainer>
     </Container>
   );
 }
 
-export default memo(CardGame);
+export default CardGame;
